@@ -1,5 +1,5 @@
 import random
-import rsa_alg
+from rsa_alg import RSAAlg
 from common_algorithms import module_degree
 
 CONSTANT_P: int = 19
@@ -51,9 +51,19 @@ def tilda_matrix(matrix: list) -> list:
     return matrix
 
 
+def crypted_matrix(matrix: list) -> list:
+    rsa = RSAAlg(CONSTANT_P, CONSTANT_Q)
+    for row_index, row in enumerate(matrix):
+        for item_index, item in enumerate(row):
+            matrix[row_index][item_index] = rsa.encrypt_message(rsa.open_key, matrix[row_index][item_index])
+    return matrix
+
+
 def main():
     h_matrix = izomorf(VARIANT)
-    h_matrix = tilda_matrix(h_matrix)
+    tilda_h_matrix = list(h_matrix)
+    tilda_matrix(tilda_h_matrix)
+    #f_matrix = crypted_matrix(tilda_h_matrix.copy())
 
     for matrix_row in h_matrix:
         print(f"{matrix_row}")
