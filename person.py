@@ -26,7 +26,7 @@ class Person:
         """
         Находит изоморфный граф.
         Возвращает матрицу смежности.
-        :param rule: int
+        :param rules: list
         :return: List[][]
         """
         new_matrix = [[0] * len(matrix) for _ in range(len(matrix))]
@@ -47,8 +47,8 @@ class Person:
         for row_index, row in enumerate(matrix):
             for item_index, item in enumerate(row):
                 matrix[row_index][item_index] += random.choice(tuple_for_random)
-                if matrix[row_index][item_index] % 2 != 0:
-                    self.gelmintov_cicle.append((row_index, item_index, matrix[row_index, item_index]))
+                # if matrix[row_index][item_index] % 2 != 0:
+                #     self.gelmintov_cicle.append((row_index, item_index, matrix[row_index, item_index]))
         return matrix
 
     def crypted_matrix(self, matrix: list, p: int, q: int) -> list:
