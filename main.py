@@ -1,13 +1,13 @@
 import sys
-from  person import Person
+from model import Model
 from controller import Controller
 from PyQt5 import QtWidgets
 
 def main():
 
     app = QtWidgets.QApplication(sys.argv)
-    person_a = Person()
-    controller = Controller(person_a)
+    model = Model()
+    controller = Controller(model)
 
     app.exec_()
 

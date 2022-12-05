@@ -14,7 +14,7 @@ class GraphWindow(QMainWindow):
 
     def initUI(self):
         self.resize(640, 480)
-        self.setWindowTitle('Проверка!!!')
+        self.setWindowTitle('Контрольная работа')
 
         # Основной вертикальный контейнер
         self.basic_vertical_container = QVBoxLayout(self)
@@ -44,26 +44,27 @@ class GraphWindow(QMainWindow):
         self.text_label = QLabel(self)
         self.text_view = QTextBrowser(self)
         self.text_label.setFixedSize(120, 40)
-        self.text_label.setText("Здесь будет текст")
+        self.text_label.setText("Текст")
         self.text_container.addWidget(self.text_label)
-        self.text_view.setFixedSize(150,200)
-        self.text_view.setText("тексттексттекст0")
+        self.text_view.setFixedSize(150, 200)
+        self.text_view.setText("Тут появится количество и типы вопросов,"
+                               "а так-же результат верификации")
         self.text_container.addWidget(self.text_view)
 
         # Контейнер для матрицы: лейбл для названия и для вывода матрицы
         self.matrix_label = QLabel(self)
         self.matrix_view = QTextBrowser(self)
         self.matrix_label.setFixedSize(120, 40)
-        self.matrix_label.setText("Здесь будет матрица")
+        self.matrix_label.setText("Матрица")
         self.matrix_container.addWidget(self.matrix_label)
-        self.matrix_view.setFixedSize(150,200)
-        self.matrix_view.setText("матрицаматрицаматрица")
+        self.matrix_view.setFixedSize(150, 200)
+        self.matrix_view.setText("Тут будет выведена выбранная матрица")
         self.matrix_container.addWidget(self.matrix_view)
 
         # Контейнер для графа: лейбл для названия и канвас из для графа
         self.graph_label = QLabel(self)
         self.graph_label.setFixedSize(120, 40)
-        self.graph_label.setText("Здесь будет граф")
+        self.graph_label.setText("Граф")
         self.graph_container.addWidget(self.graph_label)
         self.fig = plt.figure(figsize=(2, 2))
         self.canvas = FigureCanvas(self.fig)
@@ -96,13 +97,8 @@ class GraphWindow(QMainWindow):
         self.matrix_radio.toggled.connect(self.radio_changed)
         self.basic_horizontal_container_bot.addWidget(self.matrix_radio)
 
-
-
-
-
     def radio_changed(self):
         pass
 
     def button_clicked(self):
-        #self.matrix_radio.setCheckable(True)
-        self.text_view.setText(self.controller.verification())
+        self.controller.verification()
