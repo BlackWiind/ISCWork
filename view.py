@@ -1,7 +1,9 @@
 import matplotlib.pyplot as plt
+import networkx as nx
+import numpy as np
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow, QHBoxLayout, QVBoxLayout, QPushButton, QLabel, QWidget, QRadioButton, \
-    QTextBrowser
+    QTextBrowser, QButtonGroup
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 
@@ -77,28 +79,42 @@ class GraphWindow(QMainWindow):
         self.run_button.clicked.connect(self.button_clicked)
         self.basic_horizontal_container_bot.addWidget(self.run_button)
 
-        self.matrix_radio = QRadioButton("Матрица смежности")
-        self.matrix_radio.setCheckable(False)
-        self.matrix_radio.toggled.connect(self.radio_changed)
-        self.basic_horizontal_container_bot.addWidget(self.matrix_radio)
+        self.matrix_radio_1 = QRadioButton("Матрица смежности")
+        self.matrix_radio_1.matrix = "h_matrix"
+        self.matrix_radio_1.setCheckable(False)
+        self.basic_horizontal_container_bot.addWidget(self.matrix_radio_1)
 
-        self.matrix_radio = QRadioButton("Гамильтонов цикл")
-        self.matrix_radio.setCheckable(False)
-        self.matrix_radio.toggled.connect(self.radio_changed)
-        self.basic_horizontal_container_bot.addWidget(self.matrix_radio)
+        self.matrix_radio_2 = QRadioButton("Гамильтонов цикл")
+        self.matrix_radio_2.setCheckable(False)
+        self.matrix_radio_2.matrix = "cycle"
+        self.basic_horizontal_container_bot.addWidget(self.matrix_radio_2)
 
-        self.matrix_radio = QRadioButton("Гамильтонов цикл")
-        self.matrix_radio.setCheckable(False)
-        self.matrix_radio.toggled.connect(self.radio_changed)
-        self.basic_horizontal_container_bot.addWidget(self.matrix_radio)
+        self.matrix_radio_3 = QRadioButton("Закодированная матрица")
+        self.matrix_radio_3.setCheckable(False)
+        self.matrix_radio_3.matrix = "f_matrix"
+        self.basic_horizontal_container_bot.addWidget(self.matrix_radio_3)
 
-        self.matrix_radio = QRadioButton("Гамильтонов цикл")
-        self.matrix_radio.setCheckable(False)
-        self.matrix_radio.toggled.connect(self.radio_changed)
-        self.basic_horizontal_container_bot.addWidget(self.matrix_radio)
+        self.matrix_radio_4 = QRadioButton("Зашифрованная матрица")
+        self.matrix_radio_4.setCheckable(False)
+        self.matrix_radio_4.matrix = "tilda_matrix"
+        self.basic_horizontal_container_bot.addWidget(self.matrix_radio_4)
 
-    def radio_changed(self):
-        pass
+        self.radio_group = QButtonGroup()
+        self.radio_group.addButton(self.matrix_radio_1)
+        self.radio_group.addButton(self.matrix_radio_2)
+        self.radio_group.addButton(self.matrix_radio_3)
+        self.radio_group.addButton(self.matrix_radio_4)
+        self.radio_group.buttonClicked.connect(self.radio_changed)
+
+    def radio_changed(self, button):
+        self.controller.radio_change(button.matrix)
 
     def button_clicked(self):
+        self.matrix_radio_1.setCheckable(True)
+        self.matrix_radio_2.setCheckable(True)
+        self.matrix_radio_3.setCheckable(True)
+        self.matrix_radio_4.setCheckable(True)
         self.controller.verification()
+        self.controller.draw_graph()
+
+

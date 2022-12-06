@@ -1,3 +1,7 @@
+import networkx as nx
+import numpy as np
+
+import model
 from view import GraphWindow
 import utils
 import random
@@ -12,7 +16,6 @@ class Controller:
         self.view.show()
 
     def verification(self):
-        self.view.matrix_radio.setCheckable(True)
         self.view.text_view.clear()
         self.view.text_view.append("Начата верификация:")
         first_question_count: int = 0
@@ -29,26 +32,18 @@ class Controller:
                     is_verificated = False
         self.view.text_view.append(f"было задано {first_question_count} первых и\n"
                                    f"{second_question_count} вторых вопросов.")
-        self.view.text_view.append(f"Верификация пройдена успешно") if is_verificated else f"Верификация провалена"
+        self.view.text_view.append(f"Верификация пройдена успешно") if is_verificated else self.view.text_view.append(
+            f"Верификация провалена")
 
-        # def verification(persona: object) -> str:
-        #     answer: str = f"Выполнена верификация:\n"
-        #     for _ in range(random.randint(1, 20)):
-        #         # person_A = Person(CONSTANT_P, CONSTANT_Q, VARIANT)
-        #         persona.create_matrixs(BASE_MATRIX)
-        #         if random.randint(0, 1) > 0:
-        #             answer += "Выбран первый вопрос, "
-        #             answer += "ответ верный\n" if question_one(persona.get_f_matrix(), persona.get_tilda_h_matrix(),
-        #                                                        persona.rules, persona.open_key) else "ответ неверный\n"
-        #         else:
-        #             answer += "Выбран второй вопрос, "
-        #             answer += "ответ верный\n" if question_two() else "ответ неверный\n"
-        #     return answer
+    def radio_change(self, button):
+        matrix: dict = self.model.all_matrixs()[button]
+        m_string: str = ""
+        for row_index, row in enumerate(matrix):
+            m_string += str(matrix[row_index])
+            m_string += "\n"
+        self.view.matrix_view.setText(m_string)
 
-    # def verification() -> str:
-    #     answer: str = verification()
-    #     return answer
-
-    @staticmethod
-    def matrix_return():
-        pass
+    def draw_graph(self):
+        G = nx.DiGraph(np.matrix(self.model.h_matrix))
+        nx.draw(G, with_labels=True, node_size=300, arrows=False)
+        self.view.canvas.draw()

@@ -53,6 +53,7 @@ class Model:
 
     def all_matrixs(self) -> dict:
         matrixs = {
+            "h_matrix": self._h_matrix,
             "f_matrix": self._f_matrix,
             "tilda_matrix": self._tilda_h_matrix,
             "b_matrix": BASE_MATRIX,
