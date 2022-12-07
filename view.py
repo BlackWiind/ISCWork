@@ -15,7 +15,7 @@ class GraphWindow(QMainWindow):
         self.controller = controller
 
     def initUI(self):
-        self.resize(640, 480)
+        self.resize(640, 400)
         self.setWindowTitle('Контрольная работа')
 
         # Основной вертикальный контейнер
@@ -48,7 +48,7 @@ class GraphWindow(QMainWindow):
         self.text_label.setFixedSize(120, 40)
         self.text_label.setText("Текст")
         self.text_container.addWidget(self.text_label)
-        self.text_view.setFixedSize(150, 200)
+        self.text_view.setFixedSize(150, 300)
         self.text_view.setText("Тут появится количество и типы вопросов,"
                                "а так-же результат верификации")
         self.text_container.addWidget(self.text_view)
@@ -59,7 +59,7 @@ class GraphWindow(QMainWindow):
         self.matrix_label.setFixedSize(120, 40)
         self.matrix_label.setText("Матрица")
         self.matrix_container.addWidget(self.matrix_label)
-        self.matrix_view.setFixedSize(150, 200)
+        self.matrix_view.setFixedSize(250, 300)
         self.matrix_view.setText("Тут будет выведена выбранная матрица")
         self.matrix_container.addWidget(self.matrix_view)
 
@@ -82,32 +82,31 @@ class GraphWindow(QMainWindow):
         self.matrix_radio_1 = QRadioButton("Матрица смежности")
         self.matrix_radio_1.matrix = "h_matrix"
         self.matrix_radio_1.setCheckable(False)
+        self.matrix_radio_1.toggled.connect(self.radio_changed)
         self.basic_horizontal_container_bot.addWidget(self.matrix_radio_1)
 
         self.matrix_radio_2 = QRadioButton("Гамильтонов цикл")
         self.matrix_radio_2.setCheckable(False)
         self.matrix_radio_2.matrix = "cycle"
+        self.matrix_radio_2.toggled.connect(self.radio_changed)
         self.basic_horizontal_container_bot.addWidget(self.matrix_radio_2)
 
         self.matrix_radio_3 = QRadioButton("Закодированная матрица")
         self.matrix_radio_3.setCheckable(False)
-        self.matrix_radio_3.matrix = "f_matrix"
+        self.matrix_radio_3.matrix = "tilda_matrix"
+        self.matrix_radio_3.toggled.connect(self.radio_changed)
         self.basic_horizontal_container_bot.addWidget(self.matrix_radio_3)
 
         self.matrix_radio_4 = QRadioButton("Зашифрованная матрица")
         self.matrix_radio_4.setCheckable(False)
-        self.matrix_radio_4.matrix = "tilda_matrix"
+        self.matrix_radio_4.matrix = "f_matrix"
+        self.matrix_radio_4.toggled.connect(self.radio_changed)
         self.basic_horizontal_container_bot.addWidget(self.matrix_radio_4)
 
-        self.radio_group = QButtonGroup()
-        self.radio_group.addButton(self.matrix_radio_1)
-        self.radio_group.addButton(self.matrix_radio_2)
-        self.radio_group.addButton(self.matrix_radio_3)
-        self.radio_group.addButton(self.matrix_radio_4)
-        self.radio_group.buttonClicked.connect(self.radio_changed)
-
-    def radio_changed(self, button):
-        self.controller.radio_change(button.matrix)
+    def radio_changed(self, _):
+        button = self.sender()
+        if button.isChecked():
+            self.controller.radio_change(button.matrix)
 
     def button_clicked(self):
         self.matrix_radio_1.setCheckable(True)
@@ -116,5 +115,3 @@ class GraphWindow(QMainWindow):
         self.matrix_radio_4.setCheckable(True)
         self.controller.verification()
         self.controller.draw_graph()
-
-

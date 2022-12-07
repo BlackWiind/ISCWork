@@ -1,7 +1,5 @@
 import networkx as nx
 import numpy as np
-
-import model
 from view import GraphWindow
 import utils
 import random
@@ -35,8 +33,10 @@ class Controller:
         self.view.text_view.append(f"Верификация пройдена успешно") if is_verificated else self.view.text_view.append(
             f"Верификация провалена")
 
+        print(self.model.rules)
+
     def radio_change(self, button):
-        matrix: dict = self.model.all_matrixs()[button]
+        matrix: list = self.model.all_matrixs()[button]
         m_string: str = ""
         for row_index, row in enumerate(matrix):
             m_string += str(matrix[row_index])
@@ -47,3 +47,5 @@ class Controller:
         G = nx.DiGraph(np.matrix(self.model.h_matrix))
         nx.draw(G, with_labels=True, node_size=300, arrows=False)
         self.view.canvas.draw()
+
+

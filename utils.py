@@ -26,10 +26,10 @@ def evclid_extended(num1: int, num2: int) -> int:
 
 
 def rule(rule: int) -> list:
-    rules_of_nature: list = []
-    for row in range(8):
-        rules_of_nature.append(module_degree((row + rule), 1, 8))
-    return rules_of_nature
+    rules: list = [7, 4, 5, 3, 1, 2, 8, 6]
+    for row in range(len(rules)):
+        rules[row] = module_degree((rules[row] + rule), 1, 8)  # 8 т.к индексация начинается с нуля
+    return rules
 
 
 def izomorf(rules: list, matrix: list) -> list:
@@ -37,7 +37,7 @@ def izomorf(rules: list, matrix: list) -> list:
     Находит изоморфный граф.
     Возвращает матрицу смежности.
     :param rules: list
-    :return: List[][]
+    :return: list
     """
     new_matrix = [[0] * len(matrix) for _ in range(len(matrix))]
     for row_index, row in enumerate(matrix):
@@ -51,8 +51,8 @@ def tilda_matrix(matrix: list) -> list:
     """
     Приписывает к значениям в матрице случайные числа слева.
     Технически плюсует десятки.
-    :param matrix: List[][]
-    :return: List[][]
+    :param matrix: list
+    :return: list
     """
     tuple_for_random: tuple = (10, 20, 30, 40, 50)
     for row_index, row in enumerate(matrix):
@@ -110,28 +110,6 @@ def rsa_encrypt_message(open_key: tuple, message: int) -> int:
 
 def rsa_decrypt_message(private_key: int, encrypted_message: int, p: int, q: int) -> int:
     return module_degree(encrypted_message, private_key, p * q)
-
-
-# class RSAAlg:
-#
-#     def __init__(self, p: int, q: int, d: int = None):
-#         self.n = p * q
-#         self.fi = (p - 1) * (q - 1)
-#         self.d = d if d else find_d(self.fi)
-#         self.open_key = (self.d, self.n)
-#         private_key = evclid_extended(self.fi, self.d)[2]
-#         self.private_key = private_key if private_key > 0 else private_key + self.fi
-#
-#     def find_d(self):
-#         pass
-#
-#     def encrypt_message(self, open_key: tuple, message: int) -> int:
-#         # Шифровка сообщения, open key от адресата сообщения
-#         return module_degree(message, open_key[0], open_key[1])
-#
-#     def decrypt_message(self, encrypted_message: int) -> int:
-#         # Расшифровка сообщения
-#         return module_degree(encrypted_message, self.private_key, self.n)
 
 
 def find_d(fi: int) -> int:

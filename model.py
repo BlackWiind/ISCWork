@@ -56,6 +56,7 @@ class Model:
             "h_matrix": self._h_matrix,
             "f_matrix": self._f_matrix,
             "tilda_matrix": self._tilda_h_matrix,
+            "cycle": [0],
             "b_matrix": BASE_MATRIX,
         }
         return matrixs
