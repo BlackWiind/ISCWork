@@ -18,22 +18,20 @@ class Controller:
         self.view.text_view.append("Начата верификация:")
         first_question_count: int = 0
         second_question_count: int = 0
-        is_verificated = True
+        is_verified = True
         for _ in range(random.randint(1, 20)):
             if random.randint(0, 1) > 0:
                 first_question_count += 1
                 if not utils.question_one(self.model.all_matrixs(), self.model.rules, self.model.open_key):
-                    is_verificated = False
+                    is_verified = False
             else:
                 second_question_count += 1
-                if not utils.question_two():
-                    is_verificated = False
+                if not utils.question_two(self.model.cycle, self.model.f_matrix, self.model.open_key):
+                    is_verified = False
         self.view.text_view.append(f"было задано {first_question_count} первых и\n"
                                    f"{second_question_count} вторых вопросов.")
-        self.view.text_view.append(f"Верификация пройдена успешно") if is_verificated else self.view.text_view.append(
+        self.view.text_view.append(f"Верификация пройдена успешно") if is_verified else self.view.text_view.append(
             f"Верификация провалена")
-
-        print(self.model.rules)
 
     def radio_change(self, button):
         matrix: list = self.model.all_matrixs()[button]

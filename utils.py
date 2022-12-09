@@ -88,8 +88,13 @@ def question_one(matrixs: dict, numbers: list, key: tuple) -> bool:
     return True
 
 
-def question_two() -> bool:
-    return False
+def question_two(cycle: list, f_matrix: list, key: tuple) -> bool:
+    is_verified = True
+    for point in cycle:
+        if module_degree(point[2], key[0], key[1]) != f_matrix[point[0]][point[1]]:
+            is_verified = False
+
+    return is_verified
 
 
 def rsa_open_key(p: int, q: int) -> tuple:
@@ -116,3 +121,10 @@ def find_d(fi: int) -> int:
     # Находит d взаимно простое с fi такое, что d<fi
     d: int = random.randint(0, fi - 1)
     return d if evclid_extended(d, fi)[0] == 1 else find_d(fi)
+
+
+def get_cycle(matrix: list) -> list:
+    cycle: list = [[0, 5], [1, 2], [2, 3], [3, 4], [4, 1], [5, 6], [6, 7], [7, 0]]
+    for indexs in cycle:
+        indexs.append(matrix[indexs[0]][indexs[1]])
+    return cycle

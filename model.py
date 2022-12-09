@@ -1,5 +1,4 @@
 import copy
-
 import utils
 
 CONSTANT_P: int = 19
@@ -24,12 +23,12 @@ class Model:
         self._p = p
         self._q = q
         self._rules = utils.rule(variant)
-        self._gelmintov_cicle: list = []
         self._open_key: tuple = utils.rsa_open_key(self._p, self._q)
         self._private_key: int = utils.rsa_private_key(self._p, self._q)
         self._h_matrix: list = utils.izomorf(self._rules, BASE_MATRIX)
         self._tilda_h_matrix: list = utils.tilda_matrix(copy.deepcopy(self._h_matrix))
         self._f_matrix: list = utils.crypted_matrix(copy.deepcopy(self._tilda_h_matrix), self._open_key)
+        self._gemiltonov_cycle: list = utils.get_cycle(self._tilda_h_matrix)
 
     @property
     def rules(self):
@@ -51,12 +50,16 @@ class Model:
     def open_key(self):
         return self._open_key
 
+    @property
+    def cycle(self):
+        return self._gemiltonov_cycle
+
     def all_matrixs(self) -> dict:
         matrixs = {
             "h_matrix": self._h_matrix,
             "f_matrix": self._f_matrix,
             "tilda_matrix": self._tilda_h_matrix,
-            "cycle": [0],
+            "cycle": self._gemiltonov_cycle,
             "b_matrix": BASE_MATRIX,
         }
         return matrixs
@@ -64,5 +67,3 @@ class Model:
 
 def b_matrix() -> list:
     return BASE_MATRIX
-
-
