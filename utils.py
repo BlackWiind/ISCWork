@@ -90,9 +90,12 @@ def question_one(matrixs: dict, numbers: list, key: tuple) -> bool:
 
 def question_two(cycle: list, f_matrix: list, key: tuple) -> bool:
     is_verified = True
+    uniq_set = set()
     for point in cycle:
         if module_degree(point[2], key[0], key[1]) != f_matrix[point[0]][point[1]]:
             is_verified = False
+        uniq_set.add(point[1])
+    if len(uniq_set) != len(cycle): is_verified = False
 
     return is_verified
 
@@ -124,7 +127,7 @@ def find_d(fi: int) -> int:
 
 
 def get_cycle(matrix: list) -> list:
-    cycle: list = [[0, 5], [1, 2], [2, 3], [3, 4], [4, 1], [5, 6], [6, 7], [7, 0]]
+    cycle: list = [[0, 4], [4, 3], [3, 2], [2, 1], [1, 7], [7, 6], [6, 5], [5, 0]]
     for indexs in cycle:
         indexs.append(matrix[indexs[0]][indexs[1]])
     return cycle

@@ -1,9 +1,7 @@
 import matplotlib.pyplot as plt
-import networkx as nx
-import numpy as np
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow, QHBoxLayout, QVBoxLayout, QPushButton, QLabel, QWidget, QRadioButton, \
-    QTextBrowser, QButtonGroup
+    QTextBrowser
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 
